@@ -1,0 +1,38 @@
+{
+  "name": "@unologin/next",
+  "version": "0.0.1",
+  "description": "NextJS library for interfacing with unolog·in.",
+  "sideEffects": true,
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc && cp package.json lib/",
+    "test": "jest",
+    "lint": "eslint --ext .ts,.tsx ./src"
+  },
+  "author": "Adrian Kriegel",
+  "license": "MIT",
+  "repository": "https://github.com/unologin/next-sdk.git",
+  "homepage": "https://unologin.github.io/unologin/next-sdk",
+  "devDependencies": {
+    "@types/cookies": "^0.7.7",
+    "@types/node": "^18.14.0",
+    "@types/react": "^18.0.28",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "@unologin/eslint-config": "^1.1.0",
+    "eslint": "^7.19.0",
+    "next": "^13.1.6",
+    "next-test-api-route-handler": "^3.1.8",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.25",
+    "typescript": "^4.1.5"
+  },
+  "dependencies": {
+    "@types/jest": "^29.4.0",
+    "cookies": "^0.8.0",
+    "jest": "^29.4.3"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": 
+  {
+    "target": "es2018",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "./lib",
+    "skipLibCheck": true,
+    "jsx": "preserve"
+  },
+  "include": 
+  [
+    "src"
+  ]
+}

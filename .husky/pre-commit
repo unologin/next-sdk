@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+yarn test
+
+rm -rf lib/
+yarn build
+git add lib/
+
+rm -rf docs
+yarn typedoc
+git add docs/
