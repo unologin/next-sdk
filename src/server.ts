@@ -8,8 +8,10 @@ import type {
   NextApiResponse,
 } from 'next';
 
-import HttpHandlers
-  from '@unologin/node-api/build/http-handlers';
+import HttpHandlers, {
+  Request,
+  Response,
+} from '@unologin/node-api/build/http-handlers';
 
 import unologin from '@unologin/node-api';
 
@@ -18,28 +20,24 @@ import {
 } from '@unologin/node-api/build/errors';
 
 import {
-  UnologinRestApi,
-} from '@unologin/node-api/build/rest';
-
-import {
   UserDocument,
-  UserHandle,
 } from '@unologin/node-api/build/types';
 
 /** @internal */
 type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
 
-/** Contains functions bound to a request context. */
-export interface UnologinNextJSWithContext
+export type HandlerFunction<Args extends Array<any>> = 
+  (req: Request, res: Response, ...args: Args) => any;
+
+export type UnologinNextJSWithContext = 
 {
-  /** @see {@link} UnologinRestApi */
-  readonly rest: UnologinRestApi;
-
-  /** @returns UserHandle | null */
-  readonly getUserHandleNoAuth: () => UserHandle | null;
-
-  /** @returns Promise<UserDocument | null> */
-  readonly getUserDocument: () => Promise<UserDocument | null>;
+  [k in keyof UnologinNextJS]: 
+    UnologinNextJS[k] extends HandlerFunction<infer Args> ?
+      (...args : Args) => ReturnType<UnologinNextJS[k]> :
+      UnologinNextJS[k];
+} & 
+{
+  getUserDocument: () => Promise<UserDocument | null>;
 }
 
 /** @see {@link UnologinNextJS.withUnologin} */
@@ -215,10 +213,15 @@ export class UnologinNextJS
     const res = context.res as NextApiResponse;
 
     return {
-      rest: this.rest,
-      
+      ...this,
       // avoid using 'bind' in here as it's difficult to test using jest.spyOn
       getUserHandleNoAuth: () => this.getUserHandleNoAuth(req, res),
+
+      getUserToken: () => this.getUserToken(req, res),
+
+      getUserTokenOptional: () => this.getUserTokenOptional(req, res),
+
+      handleLoginEvent: () => this.handleLoginEvent(req, res),
 
       getUserDocument: async () => 
       {
