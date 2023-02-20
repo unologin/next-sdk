@@ -20,6 +20,12 @@
 /// <reference types="node" />
 import UnologinNextJS from './server';
 /**
+ * Quick setup for the client.
+ *
+ * @returns void
+ */
+export declare function clientSetup(): void;
+/**
  * Instance of {@link UnologinNextJS} using the default behavior.
  */
 export declare const unologinNextJs: UnologinNextJS;
@@ -32,8 +38,6 @@ export declare const nextApiHandler: import("next").NextApiHandler<any>;
  */
 export declare const withUnologin: (fn: (ctx: import("./server").GetServerSidePropsCtxUnologin) => Promise<import("next").GetServerSidePropsResult<{
     [key: string]: any;
-}>>, onError?: import("next").GetServerSideProps<{
-    [key: string]: any;
-}, import("querystring").ParsedUrlQuery, import("next").PreviewData>) => import("next").GetServerSideProps<{
+}>>, onError?: import("./server").GetServerSidePropsOnError) => import("next").GetServerSideProps<{
     [key: string]: any;
 }, import("querystring").ParsedUrlQuery, import("next").PreviewData>;

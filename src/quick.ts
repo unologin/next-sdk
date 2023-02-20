@@ -27,19 +27,33 @@ import unologinWeb
 import UnologinNextJS 
   from './server';
 
-unologinNode.setup(
-  {
-    apiKey: process.env.UNOLOGIN_API_KEY as string,
-    cookiesDomain: process.env.UNOLOGIN_COOKIES_DOMAIN as string,
-    disableSecureCookies: process.env.NODE_ENV === 'development',
-  },
-);
+if (typeof window === 'undefined')
+{
+  unologinNode.setup(
+    {
+      apiKey: process.env.UNOLOGIN_API_KEY as string,
+      cookiesDomain: process.env.UNOLOGIN_COOKIES_DOMAIN as string,
+      disableSecureCookies: process.env.NODE_ENV === 'development',
+    },
+  );
+}
 
-unologinWeb.setup(
+/**
+ * Quick setup for the client.
+ * 
+ * @returns void
+ */
+export function clientSetup()
+{
+  if (typeof window !== 'undefined')
   {
-    appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
-  },
-);
+    unologinWeb.setup(
+      {
+        appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
+      },
+    );
+  }
+}
 
 /**
  * Instance of {@link UnologinNextJS} using the default behavior.
@@ -49,9 +63,11 @@ export const unologinNextJs = new UnologinNextJS(unologinNode);
 /**
  * @see {@link UnologinNextJS.nextApiHandler}
  */
-export const nextApiHandler = unologinNextJs.nextApiHandler;
+export const nextApiHandler = unologinNextJs.nextApiHandler
+  .bind(unologinNextJs);
 
 /**
  * @see {@link UnologinNextJS.withUnologin}
  */
-export const withUnologin = unologinNextJs.withUnologin;
+export const withUnologin = unologinNextJs.withUnologin
+  .bind(unologinNextJs);

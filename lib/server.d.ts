@@ -9,7 +9,7 @@ export interface UnologinNextJSWithContext {
     /** @see {@link} UnologinRestApi */
     readonly rest: UnologinRestApi;
     /** @returns UserHandle | null */
-    readonly getUserHandle: () => UserHandle | null;
+    readonly getUserHandleNoAuth: () => UserHandle | null;
     /** @returns Promise<UserDocument | null> */
     readonly getUserDocument: () => Promise<UserDocument | null>;
 }
@@ -17,11 +17,23 @@ export interface UnologinNextJSWithContext {
 export interface GetServerSidePropsCtxUnologin extends GetServerSidePropsCtx {
     unologin: UnologinNextJSWithContext;
 }
+export type GetServerSidePropsOnError = (context: GetServerSidePropsCtx, error: unknown) => ReturnType<GetServerSideProps>;
 /**
  * API handlers and utility functions for server-side NextJS.
  */
 export declare class UnologinNextJS extends HttpHandlers {
     readonly rest: UnologinRestApi;
+    /**
+     * ServerSideProps sent on auth error.
+     *
+     * @see {@link withUnologin}
+     */
+    defaultErrorProps: {
+        redirect: {
+            destination: string;
+            permanent: boolean;
+        };
+    };
     /**
      * @internal
      * @param req req
@@ -98,7 +110,7 @@ export declare class UnologinNextJS extends HttpHandlers {
      * @param context context from GetServerSideProps
      * @returns unologin with context {@link UnologinNextJSWithContext}
      */
-    withContext(context: GetServerSidePropsCtx): UnologinNextJSWithContext;
+    withContext(context: Pick<GetServerSidePropsCtx, 'req' | 'res'>): UnologinNextJSWithContext;
     /**
      * Wraps getServerSideProps and attaches ```unologin``` key to ```context```.
      *
@@ -108,6 +120,6 @@ export declare class UnologinNextJS extends HttpHandlers {
      * @param onError error handler
      * @returns Promise<void>
      */
-    withUnologin: (fn: (ctx: GetServerSidePropsCtxUnologin) => ReturnType<GetServerSideProps>, onError?: GetServerSideProps) => GetServerSideProps;
+    withUnologin: (fn: (ctx: GetServerSidePropsCtxUnologin) => ReturnType<GetServerSideProps>, onError?: GetServerSidePropsOnError) => GetServerSideProps;
 }
 export default UnologinNextJS;
