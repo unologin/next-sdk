@@ -63,7 +63,6 @@ export const useRefresh = () =>
  * 
  * @param callback callback function
  * @returns callback with a `loading` state 
- * @see {@link CallbackWithLoadingState}
  * @see {@link CallbackWithState}
  */
 export const withLoadingState = <A extends Array<any>, R>(
@@ -248,7 +247,7 @@ export function useClientSession()
 }
 
 /**
- * Wrap components in SessionProvider in order to use {@link useSession}
+ * Wrap components in SessionProvider in order to use {@link useClientSession}
  * @param param0 props
  * @returns Session provider.
  */

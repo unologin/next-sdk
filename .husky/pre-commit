@@ -2,6 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 yarn test
+yarn lint 
 
 rm -rf lib/
 yarn build

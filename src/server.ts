@@ -24,7 +24,7 @@ import {
 } from '@unologin/node-api/build/types';
 
 /** @internal */
-type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
+export type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
 
 export type HandlerFunction<Args extends Array<any>> = 
   (req: Request, res: Response, ...args: Args) => any;

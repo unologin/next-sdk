@@ -1,7 +1,7 @@
 /**
  * Sets up unologin with a standard configuration.
  * 
- * Exports a plug-and-play instance of {@link UnologinNextJS} along with 
+ * Exports a plug-and-play instance of {@link server.UnologinNextJS} along with 
  * some helper functions.
  * 
  * 
@@ -56,18 +56,18 @@ export function clientSetup()
 }
 
 /**
- * Instance of {@link UnologinNextJS} using the default behavior.
+ * Instance of {@link server.UnologinNextJS} using the default behavior.
  */
 export const unologinNextJs = new UnologinNextJS(unologinNode);
 
 /**
- * @see {@link UnologinNextJS.nextApiHandler}
+ * @see {@link server.UnologinNextJS.nextApiHandler}
  */
 export const nextApiHandler = unologinNextJs.nextApiHandler
   .bind(unologinNextJs);
 
 /**
- * @see {@link UnologinNextJS.withUnologin}
+ * @see {@link server.UnologinNextJS.withUnologin}
  */
 export const withUnologin = unologinNextJs.withUnologin
   .bind(unologinNextJs);

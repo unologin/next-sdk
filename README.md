@@ -1,4 +1,6 @@
 
+** This project is in development **
+
 Add [unolog·in](https://unolog.in)'s authentication system to your [NextJS](https://nextjs.org/) application. 
 
 The full documentation for this package can be found [here](https://unologin.github.io/unologin/next-sdk).
@@ -54,6 +56,34 @@ export default nextApiHandler;
 ## Checking the login state on the server
 
 Wrap [```getServerSideProps```](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) in ```withUnologin``` to access user information.
+
+By using ```useUnologin```, any authentication errors are automatically handled and the ```context.unologin``` object is aware of the current request. 
+
+```javascript
+export const getServerSideProps = withUnologin(
+  async (context) => 
+  {
+    /**
+     * The context object can be used
+     * like the context object passed 
+     * to getServerSideProps.
+     * 
+     * The ```unologin``` object can be used 
+     * like an instance of ```UnologinNextJS```
+     * but does not require ```req``` or ```res``` 
+     * to be passed to any functions.
+     */
+    const { unologin } = context;
+
+    return {
+      props: 
+      {
+        user: await unologin.getUserDocument(),
+      },
+    };
+  },
+);
+``` 
 
 ## Setting up the client library
 

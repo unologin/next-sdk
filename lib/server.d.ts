@@ -1,18 +1,14 @@
 import type { GetServerSideProps, NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
-import HttpHandlers from '@unologin/node-api/build/http-handlers';
-import { UnologinRestApi } from '@unologin/node-api/build/rest';
-import { UserDocument, UserHandle } from '@unologin/node-api/build/types';
+import HttpHandlers, { Request, Response } from '@unologin/node-api/build/http-handlers';
+import { UserDocument } from '@unologin/node-api/build/types';
 /** @internal */
 type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
-/** Contains functions bound to a request context. */
-export interface UnologinNextJSWithContext {
-    /** @see {@link} UnologinRestApi */
-    readonly rest: UnologinRestApi;
-    /** @returns UserHandle | null */
-    readonly getUserHandleNoAuth: () => UserHandle | null;
-    /** @returns Promise<UserDocument | null> */
-    readonly getUserDocument: () => Promise<UserDocument | null>;
-}
+export type HandlerFunction<Args extends Array<any>> = (req: Request, res: Response, ...args: Args) => any;
+export type UnologinNextJSWithContext = {
+    [k in keyof UnologinNextJS]: UnologinNextJS[k] extends HandlerFunction<infer Args> ? (...args: Args) => ReturnType<UnologinNextJS[k]> : UnologinNextJS[k];
+} & {
+    getUserDocument: () => Promise<UserDocument | null>;
+};
 /** @see {@link UnologinNextJS.withUnologin} */
 export interface GetServerSidePropsCtxUnologin extends GetServerSidePropsCtx {
     unologin: UnologinNextJSWithContext;
@@ -22,7 +18,7 @@ export type GetServerSidePropsOnError = (context: GetServerSidePropsCtx, error: 
  * API handlers and utility functions for server-side NextJS.
  */
 export declare class UnologinNextJS extends HttpHandlers {
-    readonly rest: UnologinRestApi;
+    readonly rest: import("@unologin/node-api/build/rest").UnologinRestApi;
     /**
      * ServerSideProps sent on auth error.
      *
