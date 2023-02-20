@@ -55,7 +55,17 @@ export default nextApiHandler;
 
 Wrap [```getServerSideProps```](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) in ```withUnologin``` to access user information.
 
+## Setting up the client library
 
+Set up the client library by importing ```clientSetup``` and running it.
+
+```javascript
+import {
+  clientSetup,
+} from '@unologin/next/quick';
+
+clientSetup();
+```
 
 ## Checking the login state on the client
 
@@ -89,8 +99,76 @@ const MyApp = () => <ClientSessionProvider>
 
 ````
 
-## Creating a login button
+## useLogin and useLogout
+
+Use the ```useLogin``` and ```useLogout``` hooks to perform login and logout operations.
 
 ```typescript 
+
+import {
+  useLogin,
+  useLogout,
+  useClientSession
+} from '@unologin/next/react';
+
+function LoginButton()
+{
+  /**
+   * login(...) may be called with or without. 
+   * arugments and returns a Promise which 
+   * resolves after successful login.
+   * 
+   * Use ```login.loading``` and ```login.open``` 
+   * to determine the current state
+   * of the login process 
+   */
+  const login = useLogin();
+
+  return <button 
+    disabled={login.loading}
+    onClick={
+      () => login({ userClass: 'users_default' })
+    }
+  >
+    log in
+  </button>;
+}
+
+function LogoutButton()
+{
+  /**
+   * logout() is always called without arguments
+   * and returns a Promise which resolves
+   * after the user is logged out.
+   * 
+   * Use ```logout.loading``` to determine
+   * the state of the logout operation.
+   */
+  const logout = useLogout();
+
+  return <button 
+    disabled={logout.loading}
+    onClick={
+      () => logout()
+    }
+  >
+    log out
+  </button>;
+}
+
+/**
+ * Renders either login- or logout button
+ * depending on the state of the ClientSessionContext.
+ * 
+ * Needs to be rendered inside a ClientSessionContext.
+ */
+function LoginLogout()
+{
+  const { isLoggedIn } = useClientSession();
+
+  return isLoggedIn ?
+    <LogoutButton /> :
+    <LoginButton />;
+}
 
 ``` 
