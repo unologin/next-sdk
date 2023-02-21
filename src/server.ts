@@ -53,7 +53,7 @@ export type GetServerSidePropsOnError = (
 ) => ReturnType<GetServerSideProps>;
 
 /**
- * API handlers and utility functions for server-side NextJS.
+ * API handlers and utility functions for server-side Next.js.
  */
 export class UnologinNextJS
   extends HttpHandlers
@@ -96,7 +96,7 @@ export class UnologinNextJS
   }
 
   /**
-   * NextJS API handler for the login callback.
+   * Next.js API handler for the login callback.
    * 
    * @param req req
    * @param res res
@@ -110,7 +110,7 @@ export class UnologinNextJS
   };
 
   /**
-   * NextJS API handler for logging out.
+   * Next.js API handler for logging out.
    * 
    * @param req req
    * @param res res
@@ -132,7 +132,7 @@ export class UnologinNextJS
   };
 
   /**
-   * Handlers for all unologin NextJS API endpoints.
+   * Handlers for all unologin Next.js API endpoints.
    * 
    * @see {@link nextApiHandler}
    */
@@ -146,7 +146,7 @@ export class UnologinNextJS
    * Single handler for all unologin related API requests.
    * 
    * Create a file called ```[unologin].ts``` or ```[unologin].js```
-   * in the directory ```pages/api/unologin/``` in your NextJS project.
+   * in the directory ```pages/api/unologin/``` in your Next.js project.
    * 
    * In this file, set the default export to {@link nextApiHandler}.
    * 

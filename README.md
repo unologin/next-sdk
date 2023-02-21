@@ -1,9 +1,9 @@
 
 ** This project is in development **
 
-Add [unolog·in](https://unolog.in)'s authentication system to your [NextJS](https://nextjs.org/) application. 
+Add [unolog·in](https://unolog.in)'s authentication system to your [Next.js](https://Next.js.org/) application. 
 
-The full documentation for this package can be found [here](https://unologin.github.io/unologin/next-sdk).
+The full documentation for this package can be found [here](https://unologin.github.io/next-sdk).
 
 Documentation for other packages and other useful guides can be found on our [documentation page](https://dashboard.unolog.in/docs).
 
@@ -24,9 +24,9 @@ yarn add @unologin/next
 
 To use unolog·in, click [here](https://dashboard.unolog.in/) to register your application. 
 
-## Creating a NextJS application
+## Creating a Next.js application
 
-If you haven't already, [set up a NextJS application](https://nextjs.org/docs/getting-started). 
+If you haven't already, [set up a Next.js application](https://Next.js.org/docs/getting-started). 
 
 ## Setting up environment variables
 
@@ -37,11 +37,11 @@ UNOLOGIN_API_KEY=...
 UNOLOGIN_COOKIES_DOMAIN=...
 NEXT_PUBLIC_UNOLOGIN_APPID=...
 ```
-Download the file and place it at the top level of your NextJS project (next to the ```package.json``` file).
+Download the file and place it at the top level of your Next.js project (next to the ```package.json``` file).
 
 ## Adding API request handlers
 
-Add your API request handlers by creating a file located at ```pages/api/unologin/[unologin].js``` (or ```.ts```) within your NextJS project.
+Add your API request handlers by creating a file located at ```pages/api/unologin/[unologin].js``` (or ```.ts```) within your Next.js project.
 
 Add the following lines of code: 
 
@@ -55,7 +55,7 @@ export default nextApiHandler;
 
 ## Checking the login state on the server
 
-Wrap [```getServerSideProps```](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) in ```withUnologin``` to access user information.
+Wrap [```getServerSideProps```](https://Next.js.org/docs/basic-features/data-fetching/get-server-side-props) in ```withUnologin``` to access user information.
 
 By using ```useUnologin```, any authentication errors are automatically handled and the ```context.unologin``` object is aware of the current request. 
 

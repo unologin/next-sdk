@@ -1,7 +1,7 @@
 /**
  * Sets up unologin with a standard configuration.
  *
- * Exports a plug-and-play instance of {@link UnologinNextJS} along with
+ * Exports a plug-and-play instance of {@link server.UnologinNextJS} along with
  * some helper functions.
  *
  *
@@ -26,15 +26,15 @@ import UnologinNextJS from './server';
  */
 export declare function clientSetup(): void;
 /**
- * Instance of {@link UnologinNextJS} using the default behavior.
+ * Instance of {@link server.UnologinNextJS} using the default behavior.
  */
 export declare const unologinNextJs: UnologinNextJS;
 /**
- * @see {@link UnologinNextJS.nextApiHandler}
+ * @see {@link server.UnologinNextJS.nextApiHandler}
  */
 export declare const nextApiHandler: import("next").NextApiHandler<any>;
 /**
- * @see {@link UnologinNextJS.withUnologin}
+ * @see {@link server.UnologinNextJS.withUnologin}
  */
 export declare const withUnologin: (fn: (ctx: import("./server").GetServerSidePropsCtxUnologin) => Promise<import("next").GetServerSidePropsResult<{
     [key: string]: any;

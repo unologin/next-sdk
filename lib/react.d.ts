@@ -28,7 +28,6 @@ export declare const useRefresh: () => () => Promise<boolean>;
  *
  * @param callback callback function
  * @returns callback with a `loading` state
- * @see {@link CallbackWithLoadingState}
  * @see {@link CallbackWithState}
  */
 export declare const withLoadingState: <A extends any[], R>(callback: (...args: A) => Promise<R>) => CallbackWithState<(...args: A) => Promise<R>, {
@@ -121,7 +120,7 @@ export type ClientSessionContextValue = {
  */
 export declare function useClientSession(): ClientSessionContextValue;
 /**
- * Wrap components in SessionProvider in order to use {@link useSession}
+ * Wrap components in SessionProvider in order to use {@link useClientSession}
  * @param param0 props
  * @returns Session provider.
  */

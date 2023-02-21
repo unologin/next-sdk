@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextApiHandler, NextApiRequest, NextApiRespons
 import HttpHandlers, { Request, Response } from '@unologin/node-api/build/http-handlers';
 import { UserDocument } from '@unologin/node-api/build/types';
 /** @internal */
-type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
+export type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
 export type HandlerFunction<Args extends Array<any>> = (req: Request, res: Response, ...args: Args) => any;
 export type UnologinNextJSWithContext = {
     [k in keyof UnologinNextJS]: UnologinNextJS[k] extends HandlerFunction<infer Args> ? (...args: Args) => ReturnType<UnologinNextJS[k]> : UnologinNextJS[k];
@@ -15,7 +15,7 @@ export interface GetServerSidePropsCtxUnologin extends GetServerSidePropsCtx {
 }
 export type GetServerSidePropsOnError = (context: GetServerSidePropsCtx, error: unknown) => ReturnType<GetServerSideProps>;
 /**
- * API handlers and utility functions for server-side NextJS.
+ * API handlers and utility functions for server-side Next.js.
  */
 export declare class UnologinNextJS extends HttpHandlers {
     readonly rest: import("@unologin/node-api/build/rest").UnologinRestApi;
@@ -41,7 +41,7 @@ export declare class UnologinNextJS extends HttpHandlers {
      */
     protected setCookie(req: NextApiRequest, res: NextApiResponse, name: string, value: string, options: object): void;
     /**
-     * NextJS API handler for the login callback.
+     * Next.js API handler for the login callback.
      *
      * @param req req
      * @param res res
@@ -49,7 +49,7 @@ export declare class UnologinNextJS extends HttpHandlers {
      */
     private loginHandler;
     /**
-     * NextJS API handler for logging out.
+     * Next.js API handler for logging out.
      *
      * @param req req
      * @param res res
@@ -57,7 +57,7 @@ export declare class UnologinNextJS extends HttpHandlers {
      */
     private logoutHandler;
     /**
-     * Handlers for all unologin NextJS API endpoints.
+     * Handlers for all unologin Next.js API endpoints.
      *
      * @see {@link nextApiHandler}
      */
@@ -68,7 +68,7 @@ export declare class UnologinNextJS extends HttpHandlers {
      * Single handler for all unologin related API requests.
      *
      * Create a file called ```[unologin].ts``` or ```[unologin].js```
-     * in the directory ```pages/api/unologin/``` in your NextJS project.
+     * in the directory ```pages/api/unologin/``` in your Next.js project.
      *
      * In this file, set the default export to {@link nextApiHandler}.
      *
