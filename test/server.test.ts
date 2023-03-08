@@ -3,8 +3,9 @@
 import UnologinNextJS from '../src/server';
 
 import {
-  IUnologinClient, UserHandle,
-} from '@unologin/node-api/build/types';
+  IUnologinClient, 
+  UserHandle,
+} from '@unologin/node-sdk/types';
 
 import {
   createMocks,
@@ -13,8 +14,11 @@ import {
 import {
   defaultOptions,
   Options,
-} from '@unologin/node-api';
-import { APIError } from '@unologin/node-api/build/errors';
+} from '@unologin/node-sdk';
+
+import {
+  APIError,
+} from '@unologin/node-sdk/errors';
 
 const unologin = {
   getOptions: () : Options => 

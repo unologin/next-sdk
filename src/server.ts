@@ -1,3 +1,7 @@
+/**
+ * @module server 
+ * 
+ */
 
 import Cookies from 'cookies';
 
@@ -9,25 +13,29 @@ import type {
 } from 'next';
 
 import HttpHandlers, {
-  Request,
-  Response,
-} from '@unologin/node-api/build/http-handlers';
+  ExpressOrNextRequest,
+  ExpressOrNextResponse,
+} from '@unologin/node-sdk/http-handlers';
 
-import unologin from '@unologin/node-api';
+import unologin from '@unologin/node-sdk';
 
 import {
   APIError,
-} from '@unologin/node-api/build/errors';
+} from '@unologin/node-sdk/errors';
 
 import {
   UserDocument,
-} from '@unologin/node-api/build/types';
+} from '@unologin/node-sdk/types';
 
 /** @internal */
 export type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
 
 export type HandlerFunction<Args extends Array<any>> = 
-  (req: Request, res: Response, ...args: Args) => any;
+(
+  req: ExpressOrNextRequest,
+  res: ExpressOrNextResponse,
+  ...args: Args
+) => any;
 
 export type UnologinNextJSWithContext = 
 {

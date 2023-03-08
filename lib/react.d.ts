@@ -66,7 +66,7 @@ export declare const withLoadingState: <A extends any[], R>(callback: (...args: 
  *
  * @returns Asynchronous function to initiate login flow.
  */
-export declare const useLogin: () => CallbackWithState<CallbackWithState<(opts: import("@unologin/web-sdk/login").LoginOptions) => Promise<void>, {
+export declare const useLogin: () => CallbackWithState<CallbackWithState<(opts: import("@unologin/web-sdk/lib/login").LoginOptions) => Promise<void>, {
     loading: boolean;
 }>, {
     open: boolean;

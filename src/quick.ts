@@ -19,7 +19,7 @@
  */
 
 import unologinNode 
-  from '@unologin/node-api';
+  from '@unologin/node-sdk';
 
 import unologinWeb
   from '@unologin/web-sdk';

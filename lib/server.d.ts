@@ -1,9 +1,13 @@
+/**
+ * @module server
+ *
+ */
 import type { GetServerSideProps, NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
-import HttpHandlers, { Request, Response } from '@unologin/node-api/build/http-handlers';
-import { UserDocument } from '@unologin/node-api/build/types';
+import HttpHandlers, { ExpressOrNextRequest, ExpressOrNextResponse } from '@unologin/node-sdk/http-handlers';
+import { UserDocument } from '@unologin/node-sdk/types';
 /** @internal */
 export type GetServerSidePropsCtx = Parameters<GetServerSideProps>[0];
-export type HandlerFunction<Args extends Array<any>> = (req: Request, res: Response, ...args: Args) => any;
+export type HandlerFunction<Args extends Array<any>> = (req: ExpressOrNextRequest, res: ExpressOrNextResponse, ...args: Args) => any;
 export type UnologinNextJSWithContext = {
     [k in keyof UnologinNextJS]: UnologinNextJS[k] extends HandlerFunction<infer Args> ? (...args: Args) => ReturnType<UnologinNextJS[k]> : UnologinNextJS[k];
 } & {
@@ -18,7 +22,7 @@ export type GetServerSidePropsOnError = (context: GetServerSidePropsCtx, error: 
  * API handlers and utility functions for server-side Next.js.
  */
 export declare class UnologinNextJS extends HttpHandlers {
-    readonly rest: import("@unologin/node-api/build/rest").UnologinRestApi;
+    readonly rest: import("@unologin/node-sdk/rest").UnologinRestApi;
     /**
      * ServerSideProps sent on auth error.
      *

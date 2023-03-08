@@ -10,7 +10,7 @@
     "declaration": true,
     "outDir": "./lib",
     "skipLibCheck": true,
-    "jsx": "preserve"
+    "jsx": "react-jsx"
   },
   "include": 
   [
