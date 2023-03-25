@@ -69,6 +69,17 @@ export class UnologinNextJS
   public readonly rest = unologin.rest;
 
   /**
+   * 
+   * @param client client
+   */
+  constructor(client : typeof unologin = unologin)
+  {
+    super(client);
+
+    this.rest ||= client.rest;
+  }
+
+  /**
    * ServerSideProps sent on auth error.
    * 
    * @see {@link withUnologin}
@@ -220,9 +231,16 @@ export class UnologinNextJS
     const req = context.req as NextApiRequest;
     const res = context.res as NextApiResponse;
 
+    /**
+     * Important: avoid using 'bind' in here as it's 
+     * difficult to test using jest.spyOn.
+     */
     return {
       ...this,
-      // avoid using 'bind' in here as it's difficult to test using jest.spyOn
+
+
+      getLoginUrlFromLoginEvent: () => this.getLoginUrlFromLoginEvent(req, res),
+
       getUserHandleNoAuth: () => this.getUserHandleNoAuth(req, res),
 
       getUserToken: () => this.getUserToken(req, res),

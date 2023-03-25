@@ -84,77 +84,103 @@ test('withLoadingState', async () =>
     .toBe(true);
 });
 
-test('useLogin', async () => 
+describe('useLogin', () => 
 {
-  const loginController = controlledAsync();
+  test('types', () => 
+  {
+    // TODO: there are not required parameters to th login function right now
+    // but if there are, they should not be required anymore once passed 
+    // directly to useLogin
 
-  const startLogin = jest.spyOn(
-    unologinWeb,
-    'startLogin',
-  ).mockImplementation(loginController);
+    const mock = jest.spyOn(
+      hooks,
+      'useLogin',
+    ).mockReturnValue((() => { }) as any);
+
+    const login1 = hooks.useLogin();
+
+    login1({ });
+
+    login1({ userClass: 'users_default' });
+
+    mock.mockRestore();
+  });
+
+  test('behavior', async () => 
+  {
+    const loginController = controlledAsync();
+
+    const startLogin = jest.spyOn(
+      unologinWeb,
+      'startLogin',
+    ).mockImplementation(loginController);
   
-  const useRefresh = jest.spyOn(
-    hooks,
-    'useRefresh',
-  );
+    const useRefresh = jest.spyOn(
+      hooks,
+      'useRefresh',
+    );
 
-  const { result } = renderHook(
-    () => 
-    {
-      const refreshController = controlledAsync();
+    const { result } = renderHook(
+      () => 
+      {
+        const refreshController = controlledAsync();
     
-      useRefresh.mockReturnValue(
-        () => new Promise<boolean>(
-          (resolve) => 
-          {
-            refreshController().then(
-              () => resolve(true),
-            ); 
-          },
-        ),
-      );
+        useRefresh.mockReturnValue(
+          () => new Promise<boolean>(
+            (resolve) => 
+            {
+              refreshController().then(
+                () => resolve(true),
+              ); 
+            },
+          ),
+        );
 
-      const login = useLogin();
-      const [run, setRun] = useState(false);
+        const login = useLogin();
+        const [run, setRun] = useState(false);
 
-      useEffect(() => { run && login({ userClass: 'my_user_class' }); }, [run]);
+        useEffect(
+          () => { run && login({ userClass: 'my_user_class' }); },
+          [run],
+        );
 
-      return {
-        state: { ...login },
-        // causes login to be called
-        run: () => setRun(true),
-        refreshController,
-      };
-    },
-  );
+        return {
+          state: { ...login },
+          // causes login to be called
+          run: () => setRun(true),
+          refreshController,
+        };
+      },
+    );
 
-  expect(result.current.state)
-    .toStrictEqual({ open: false, loading: false });
+    expect(result.current.state)
+      .toStrictEqual({ open: false, loading: false });
 
-  act(result.current.run);
+    act(result.current.run);
 
-  expect(result.current.state)
-    .toStrictEqual({ open: true, loading: true });
+    expect(result.current.state)
+      .toStrictEqual({ open: true, loading: true });
 
-  expect(startLogin)
-    .toHaveBeenCalledTimes(1);
+    expect(startLogin)
+      .toHaveBeenCalledTimes(1);
 
-  expect(startLogin.mock.calls[0][0])
-    .toStrictEqual({ userClass: 'my_user_class' });
+    expect(startLogin.mock.calls[0][0])
+      .toStrictEqual({ userClass: 'my_user_class' });
 
-  act(() => loginController.resolve());
+    act(() => loginController.resolve());
 
-  await waitFor(
-    () => expect(result.current.state)
-      .toStrictEqual({ loading: true, open: false }),
-  );
+    await waitFor(
+      () => expect(result.current.state)
+        .toStrictEqual({ loading: true, open: false }),
+    );
 
-  act(() => result.current.refreshController.resolve());
+    act(() => result.current.refreshController.resolve());
 
-  await waitFor(
-    () => expect(result.current.state)
-      .toStrictEqual({ loading: true, open: false }),
-  );
+    await waitFor(
+      () => expect(result.current.state)
+        .toStrictEqual({ loading: true, open: false }),
+    );
+  });
 });
 
 test.todo('useLogout');

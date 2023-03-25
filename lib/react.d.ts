@@ -4,6 +4,7 @@
  * Provides utility functions as react hooks.
  */
 import { PropsWithChildren } from 'react';
+import { LoginOptions } from '@unologin/web-sdk';
 /**
  * Function with an attached state object.
  */
@@ -42,6 +43,8 @@ export declare const withLoadingState: <A extends any[], R>(callback: (...args: 
  *
  * The ```Promise``` will reject otherwise.
  *
+ * @param defaultOptions default values for options passed to the returned login() function.
+ *
  * @example
  * ```javascript
  * function LoginButtonExample()
@@ -66,7 +69,7 @@ export declare const withLoadingState: <A extends any[], R>(callback: (...args: 
  *
  * @returns Asynchronous function to initiate login flow.
  */
-export declare const useLogin: () => CallbackWithState<CallbackWithState<(opts: import("@unologin/web-sdk/lib/login").LoginOptions) => Promise<void>, {
+export declare function useLogin<DefaultOptions extends Partial<LoginOptions> = {}>(defaultOptions?: DefaultOptions): CallbackWithState<CallbackWithState<(...args: DefaultOptions extends import("@unologin/web-sdk/lib/login").LoginOptions ? [] | [Partial<import("@unologin/web-sdk/lib/login").LoginOptions> & Omit<import("@unologin/web-sdk/lib/login").LoginOptions, keyof DefaultOptions>] : [Partial<import("@unologin/web-sdk/lib/login").LoginOptions> & Omit<import("@unologin/web-sdk/lib/login").LoginOptions, keyof DefaultOptions>]) => Promise<void>, {
     loading: boolean;
 }>, {
     open: boolean;

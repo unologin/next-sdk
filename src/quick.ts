@@ -19,7 +19,7 @@
  */
 
 import unologinNode 
-  from '@unologin/node-sdk';
+, { Options, realms } from '@unologin/node-sdk';
 
 import unologinWeb
   from '@unologin/web-sdk';
@@ -27,13 +27,25 @@ import unologinWeb
 import UnologinNextJS 
   from './server';
 
+const realm : Options['realm'] = 
+{
+  frontendUrl: 
+    process.env.NEXT_PUBLIC_UNOLOGIN_DEV_FRONTEND_URL || 
+    realms.live.frontendUrl,
+  apiUrl:
+    process.env.NEXT_PUBLIC_UNOLOGIN_DEV_API_URL || 
+    realms.live.apiUrl,
+};
+
 if (typeof window === 'undefined')
 {
+
   unologinNode.setup(
     {
       apiKey: process.env.UNOLOGIN_API_KEY as string,
       cookiesDomain: process.env.UNOLOGIN_COOKIES_DOMAIN as string,
       disableSecureCookies: process.env.NODE_ENV === 'development',
+      realm,
     },
   );
 }
@@ -50,6 +62,8 @@ export function clientSetup()
     unologinWeb.setup(
       {
         appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
+        realm: realm.frontendUrl,
+        api: realm.apiUrl,
       },
     );
   }

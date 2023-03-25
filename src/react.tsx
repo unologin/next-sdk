@@ -97,6 +97,8 @@ export const withLoadingState = <A extends Array<any>, R>(
  * 
  * The ```Promise``` will reject otherwise.
  * 
+ * @param defaultOptions default values for options passed to the returned login() function.
+ * 
  * @example
  * ```javascript
  * function LoginButtonExample()
@@ -121,7 +123,9 @@ export const withLoadingState = <A extends Array<any>, R>(
  * 
  * @returns Asynchronous function to initiate login flow.
  */
-export const useLogin = () => 
+export function useLogin<
+  DefaultOptions extends Partial<LoginOptions> = {}
+>(defaultOptions?: DefaultOptions)
 {
   const refresh = useRefresh();
 
@@ -129,14 +133,30 @@ export const useLogin = () =>
 
   const sessionContext = useContext(ClientSessionContext);
 
+  type LoginOptionsType = 
+    Partial<LoginOptions> & 
+    Omit<LoginOptions, keyof DefaultOptions>
+  ;
+
   const login = withLoadingState(
-    async (opts : LoginOptions) => 
+    async (
+      ...args : DefaultOptions extends LoginOptions ?
+        ([] | [LoginOptionsType]) :
+        [LoginOptionsType]
+    ) => 
     { 
       setOpen(true);
 
+      const opts = args[0];
+
       try 
       {
-        await unologin.startLogin(opts);
+        await unologin.startLogin(
+          {
+            ...(defaultOptions || {}),
+            ...(opts || {}),
+          },
+        );
       }
       finally
       {
@@ -150,7 +170,7 @@ export const useLogin = () =>
   );
 
   return withState(login, { open });
-};
+}
  
 /**
  * 
