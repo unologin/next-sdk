@@ -14,7 +14,7 @@ export type UnologinNextJSWithContext = {
 } & {
     getUserDocument: () => Promise<UserDocument | null>;
 };
-/** @see {@link UnologinNextJS.withUnologin} */
+/** @see {@link UnologinNextJS["withUnologin"]} */
 export interface GetServerSidePropsCtxUnologin extends GetServerSidePropsCtx {
     unologin: UnologinNextJSWithContext;
 }

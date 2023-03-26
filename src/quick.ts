@@ -64,6 +64,7 @@ export function clientSetup()
         appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
         realm: realm.frontendUrl,
         api: realm.apiUrl,
+        callbackUrl: process.env.NEXT_PUBLIC_UNOLOGIN_CALLBACK_URL,
       },
     );
   }

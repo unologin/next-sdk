@@ -12,6 +12,7 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -268,14 +269,18 @@ export function useClientSession()
 
 /**
  * Wrap components in SessionProvider in order to use {@link useClientSession}
- * @param param0 props
+ * @param param0 props use props.loggedIn to set the initial state.
  * @returns Session provider.
  */
 export function ClientSessionProvider(
-  { children } : PropsWithChildren<{}>,
+  { children, loggedIn } : PropsWithChildren<{ loggedIn?: boolean }>,
 )
 {
-  const [isLoggedIn, setIsLoggedIn] = useState(unologin.isLoggedIn());
+  const [isLoggedIn, setIsLoggedIn] = useState(!!loggedIn);
+
+  useEffect(
+    () => setIsLoggedIn(unologin.isLoggedIn()),
+  );
 
   return <ClientSessionContext.Provider
     value={

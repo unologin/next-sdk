@@ -124,7 +124,9 @@ export type ClientSessionContextValue = {
 export declare function useClientSession(): ClientSessionContextValue;
 /**
  * Wrap components in SessionProvider in order to use {@link useClientSession}
- * @param param0 props
+ * @param param0 props use props.loggedIn to set the initial state.
  * @returns Session provider.
  */
-export declare function ClientSessionProvider({ children }: PropsWithChildren<{}>): JSX.Element;
+export declare function ClientSessionProvider({ children, loggedIn }: PropsWithChildren<{
+    loggedIn?: boolean;
+}>): JSX.Element;
