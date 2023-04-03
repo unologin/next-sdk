@@ -6,7 +6,7 @@ yarn lint
 
 rm -rf lib/
 yarn build
-git add lib/
+git add lib/ cjs/
 
 rm -rf docs
 yarn typedoc
