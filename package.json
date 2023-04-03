@@ -4,8 +4,27 @@
   "description": "Next.js library for interfacing with unolog·in.",
   "sideEffects": true,
   "files": [
-    "./**"
+    "./cjs/**",
+    "./lib/**"
   ],
+
+  "exports": {
+    "./quick": {
+      "types": "./lib/quick.d.ts", 
+      "require": "./cjs/quick.js",
+      "import": "./lib/quick.js"
+    },
+    "./react": {
+      "types": "./lib/react.d.ts", 
+      "require": "./cjs/react.js",
+      "import": "./lib/react.js"
+    },
+    "./server": {
+      "types": "./lib/server.d.ts", 
+      "require": "./cjs/server.js",
+      "import": "./lib/server.js"
+    }
+  },
   "keywords": [
     "unologin",
     "nextjs",
@@ -14,9 +33,10 @@
     "unolog.in"
   ],
   "scripts": {
-    "build": "tsc && cp package.json lib/ && cp README.md lib/",
     "test": "jest",
-    "lint": "eslint --ext .ts,.tsx ./src"
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "build": "tsc && yarn build-cjs",
+    "build-cjs": "tsc --outDir ./cjs --module commonjs"
   },
   "author": "Adrian Kriegel",
   "license": "MIT",
