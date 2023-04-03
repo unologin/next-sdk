@@ -125,7 +125,10 @@ export const withLoadingState = <A extends Array<any>, R>(
  * @returns Asynchronous function to initiate login flow.
  */
 export function useLogin<
-  DefaultOptions extends Partial<LoginOptions> = {}
+  DefaultOptions extends Partial<LoginOptions> = {},
+  LoginOptionsType = 
+  Partial<LoginOptions> & 
+  Omit<LoginOptions, keyof DefaultOptions>
 >(defaultOptions?: DefaultOptions)
 {
   const refresh = useRefresh();
@@ -133,12 +136,7 @@ export function useLogin<
   const [open, setOpen] = useState(false);
 
   const sessionContext = useContext(ClientSessionContext);
-
-  type LoginOptionsType = 
-    Partial<LoginOptions> & 
-    Omit<LoginOptions, keyof DefaultOptions>
-  ;
-
+  
   const login = withLoadingState(
     async (
       ...args : DefaultOptions extends LoginOptions ?
