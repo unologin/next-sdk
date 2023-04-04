@@ -47,7 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withUnologin = exports.nextApiHandler = exports.unologinNextJs = exports.clientSetup = void 0;
 const node_sdk_1 = __importStar(require("@unologin/node-sdk"));
-const web_sdk_1 = __importDefault(require("@unologin/web-sdk"));
+const unologinWeb = Promise.resolve().then(() => __importStar(require('@unologin/web-sdk')));
 const server_1 = __importDefault(require("./server"));
 const realm = {
     frontendUrl: process.env.NEXT_PUBLIC_UNOLOGIN_DEV_FRONTEND_URL ||
@@ -70,12 +70,12 @@ if (typeof window === 'undefined') {
  */
 function clientSetup() {
     if (typeof window !== 'undefined') {
-        web_sdk_1.default.setup({
+        unologinWeb.then((unologin) => unologin.setup({
             appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID,
             realm: realm.frontendUrl,
             api: realm.apiUrl,
             callbackUrl: process.env.NEXT_PUBLIC_UNOLOGIN_CALLBACK_URL,
-        });
+        }));
     }
 }
 exports.clientSetup = clientSetup;

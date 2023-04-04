@@ -4,13 +4,15 @@
  * Provides utility functions as react hooks.
  */
 
+'use client';
+
 import {
   useRouter,
 } from 'next/router';
 
-import {
-  createContext,
+import React, {
   PropsWithChildren,
+  createContext,
   useContext,
   useEffect,
   useState,

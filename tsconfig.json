@@ -3,6 +3,7 @@
   {
     "target": "es2018",
     "moduleResolution": "node",
+    "module": "ES2022",
     "allowJs": false,
     "strict": true,
     "isolatedModules": true,

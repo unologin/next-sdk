@@ -21,8 +21,7 @@
 import unologinNode 
 , { Options, realms } from '@unologin/node-sdk';
 
-import unologinWeb
-  from '@unologin/web-sdk';
+const unologinWeb = import('@unologin/web-sdk');
 
 import UnologinNextJS 
   from './server';
@@ -59,13 +58,15 @@ export function clientSetup()
 {
   if (typeof window !== 'undefined')
   {
-    unologinWeb.setup(
-      {
-        appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
-        realm: realm.frontendUrl,
-        api: realm.apiUrl,
-        callbackUrl: process.env.NEXT_PUBLIC_UNOLOGIN_CALLBACK_URL,
-      },
+    unologinWeb.then(
+      (unologin) => unologin.setup(
+        {
+          appId: process.env.NEXT_PUBLIC_UNOLOGIN_APPID as string,
+          realm: realm.frontendUrl,
+          api: realm.apiUrl,
+          callbackUrl: process.env.NEXT_PUBLIC_UNOLOGIN_CALLBACK_URL,
+        },
+      ),
     );
   }
 }

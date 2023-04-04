@@ -5,7 +5,8 @@
   "sideEffects": true,
   "files": [
     "./cjs/**",
-    "./lib/**"
+    "./lib/**",
+    "*.d.ts"
   ],
   "exports": {
     "./quick": {
@@ -58,8 +59,8 @@
     "jest-environment-jsdom": "^29.4.3",
     "next": "^13.1.6",
     "node-mocks-http": "^1.12.1",
-    "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react": "^18.2.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.25",
@@ -70,6 +71,8 @@
   },
   "peerDependencies": {
     "@unologin/node-sdk": "^1.0.0",
-    "@unologin/web-sdk": "^1.0.4"
+    "@unologin/web-sdk": "^1.0.4",
+    "react-dom": "^18.2.0",
+    "react": "^18.2.0"
   }
 }

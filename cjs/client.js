@@ -1,13 +1,18 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClientSessionProvider = exports.useClientSession = exports.useLogout = exports.useLogin = exports.withLoadingState = exports.useRefresh = exports.withState = void 0;
+const jsx_runtime_1 = require("react/jsx-runtime");
 /**
  * @module unologin-hooks
  *
  * Provides utility functions as react hooks.
  */
-'use client';
-import { jsx as _jsx } from "react/jsx-runtime";
-import { useRouter, } from 'next/router';
-import { createContext, useContext, useEffect, useState, } from 'react';
-import unologin from '@unologin/web-sdk';
+const router_1 = require("next/router");
+const react_1 = require("react");
+const web_sdk_1 = __importDefault(require("@unologin/web-sdk"));
 /**
  * Create a function with an attached state object.
  *
@@ -15,17 +20,19 @@ import unologin from '@unologin/web-sdk';
  * @param state state
  * @returns CallbackWithState
  */
-export function withState(fn, state) {
+function withState(fn, state) {
     return Object.assign(fn, state);
 }
+exports.withState = withState;
 /**
  * @internal
  * @returns Function for refreshing page props.
  */
-export const useRefresh = () => {
-    const router = useRouter();
+const useRefresh = () => {
+    const router = (0, router_1.useRouter)();
     return () => router.replace(router.asPath);
 };
+exports.useRefresh = useRefresh;
 /**
  * Adds a `loading` state which is initially false.
  * Once the callback is invoked, it is set to true.
@@ -35,8 +42,8 @@ export const useRefresh = () => {
  * @returns callback with a `loading` state
  * @see {@link CallbackWithState}
  */
-export const withLoadingState = (callback) => {
-    const [loading, setLoading] = useState(false);
+const withLoadingState = (callback) => {
+    const [loading, setLoading] = (0, react_1.useState)(false);
     const res = async (...args) => {
         setLoading(true);
         try {
@@ -48,6 +55,7 @@ export const withLoadingState = (callback) => {
     };
     return withState(res, { loading });
 };
+exports.withLoadingState = withLoadingState;
 /**
  * Returns a stateful function to initiate the unologin login flow.
  *
@@ -83,15 +91,15 @@ export const withLoadingState = (callback) => {
  *
  * @returns Asynchronous function to initiate login flow.
  */
-export function useLogin(defaultOptions) {
-    const refresh = useRefresh();
-    const [open, setOpen] = useState(false);
-    const sessionContext = useContext(ClientSessionContext);
-    const login = withLoadingState(async (...args) => {
+function useLogin(defaultOptions) {
+    const refresh = (0, exports.useRefresh)();
+    const [open, setOpen] = (0, react_1.useState)(false);
+    const sessionContext = (0, react_1.useContext)(ClientSessionContext);
+    const login = (0, exports.withLoadingState)(async (...args) => {
         setOpen(true);
         const opts = args[0];
         try {
-            await unologin.startLogin({
+            await web_sdk_1.default.startLogin({
                 ...(defaultOptions || {}),
                 ...(opts || {}),
             });
@@ -104,6 +112,7 @@ export function useLogin(defaultOptions) {
     });
     return withState(login, { open });
 }
+exports.useLogin = useLogin;
 /**
  *
  * Returns a stateful asynchronous logout function.
@@ -135,10 +144,10 @@ export function useLogin(defaultOptions) {
  * @param logoutUrl Optional logout URL.
  * @returns Stateful asynchronous logout function.
  */
-export const useLogout = (logoutUrl = '/api/unologin/logout') => {
-    const refresh = useRefresh();
-    const sessionContext = useContext(ClientSessionContext);
-    return withLoadingState(async () => {
+const useLogout = (logoutUrl = '/api/unologin/logout') => {
+    const refresh = (0, exports.useRefresh)();
+    const sessionContext = (0, react_1.useContext)(ClientSessionContext);
+    return (0, exports.withLoadingState)(async () => {
         try {
             await fetch(logoutUrl, { method: 'POST' });
         }
@@ -148,13 +157,14 @@ export const useLogout = (logoutUrl = '/api/unologin/logout') => {
         }
     });
 };
-const ClientSessionContext = createContext(null);
+exports.useLogout = useLogout;
+const ClientSessionContext = (0, react_1.createContext)(null);
 /**
  *
  * @returns SessionContextValue
  */
-export function useClientSession() {
-    const value = useContext(ClientSessionContext);
+function useClientSession() {
+    const value = (0, react_1.useContext)(ClientSessionContext);
     if (value) {
         return value;
     }
@@ -162,16 +172,18 @@ export function useClientSession() {
         throw new Error('Cannot use useClientSession outside of ClientSessionProvider');
     }
 }
+exports.useClientSession = useClientSession;
 /**
  * Wrap components in SessionProvider in order to use {@link useClientSession}
  * @param param0 props use props.loggedIn to set the initial state.
  * @returns Session provider.
  */
-export function ClientSessionProvider({ children, loggedIn }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(!!loggedIn);
-    useEffect(() => setIsLoggedIn(unologin.isLoggedIn()));
-    return _jsx(ClientSessionContext.Provider, { value: {
+function ClientSessionProvider({ children, loggedIn }) {
+    const [isLoggedIn, setIsLoggedIn] = (0, react_1.useState)(!!loggedIn);
+    (0, react_1.useEffect)(() => setIsLoggedIn(web_sdk_1.default.isLoggedIn()));
+    return (0, jsx_runtime_1.jsx)(ClientSessionContext.Provider, { value: {
             isLoggedIn,
-            refresh: () => setIsLoggedIn(unologin.isLoggedIn()),
+            refresh: () => setIsLoggedIn(web_sdk_1.default.isLoggedIn()),
         }, children: children });
 }
+exports.ClientSessionProvider = ClientSessionProvider;
