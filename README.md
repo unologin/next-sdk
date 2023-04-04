@@ -107,7 +107,7 @@ The client-side session is only meant for updating the UI once the login state c
 
 It should **not be used for authentication or authorization** of any kind. 
 
-````javascript
+````JSX
 
 import {
   useClientSession,
@@ -133,7 +133,7 @@ const MyApp = () => <ClientSessionProvider>
 
 Use the ```useLogin``` and ```useLogout``` hooks to perform login and logout operations.
 
-```typescript 
+```JSX 
 
 import {
   useLogin,
