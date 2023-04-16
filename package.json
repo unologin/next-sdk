@@ -1,6 +1,6 @@
 {
   "name": "@unologin/next",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Next.js library for interfacing with unolog·in.",
   "sideEffects": true,
   "files": [
@@ -51,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^5.52.0",
     "@unologin/eslint-config": "^1.1.0",
-    "@unologin/node-sdk": "^1.0.0",
+    "@unologin/node-sdk": "^1.1.0",
     "@unologin/web-sdk": "^1.0.4",
     "eslint": "^7.19.0",
     "husky": "^8.0.3",
@@ -59,8 +59,8 @@
     "jest-environment-jsdom": "^29.4.3",
     "next": "^13.1.6",
     "node-mocks-http": "^1.12.1",
-    "react-dom": "^18.2.0",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.25",
@@ -70,9 +70,9 @@
     "cookies": "^0.8.0"
   },
   "peerDependencies": {
-    "@unologin/node-sdk": "^1.0.0",
+    "@unologin/node-sdk": "^1.1.0",
     "@unologin/web-sdk": "^1.0.4",
-    "react-dom": "^18.2.0",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
