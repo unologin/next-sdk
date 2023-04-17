@@ -1,11 +1,9 @@
 
-** This project is in development **
-
-Add [unolog·in](https://unolog.in)'s authentication system to your [Next.js](https://Next.js.org/) application. 
+Add [unolog·in](https://unolog.in) to your [Next.js](https://Next.js.org/) application. 
 
 The full documentation for this package can be found [here](https://unologin.github.io/next-sdk).
 
-Documentation for other packages and other useful guides can be found on our [documentation page](https://dashboard.unolog.in/docs).
+Documentation for other packages and useful guides can be found on our [documentation page](https://unolog.in/developers/).
 
 # Installation
 
@@ -20,13 +18,13 @@ yarn add @unologin/next
 
 # Quick Setup
 
-## Registering your application
-
-To use unolog·in, click [here](https://dashboard.unolog.in/) to register your application. 
-
 ## Creating a Next.js application
 
 If you haven't already, [set up a Next.js application](https://Next.js.org/docs/getting-started). 
+
+## Registering your application
+
+To use unolog·in, click [here](https://dashboard.unolog.in/) to register your application. 
 
 ## Setting up environment variables
 
@@ -53,41 +51,11 @@ import {
 export default nextApiHandler;
 ```
 
-## Checking the login state on the server
-
-Wrap [```getServerSideProps```](https://Next.js.org/docs/basic-features/data-fetching/get-server-side-props) in ```withUnologin``` to access user information.
-
-By using ```useUnologin```, any authentication errors are automatically handled and the ```context.unologin``` object is aware of the current request. 
-
-```javascript
-export const getServerSideProps = withUnologin(
-  async (context) => 
-  {
-    /**
-     * The context object can be used
-     * like the context object passed 
-     * to getServerSideProps.
-     * 
-     * The ```unologin``` object can be used 
-     * like an instance of ```UnologinNextJS```
-     * but does not require ```req``` or ```res``` 
-     * to be passed to any functions.
-     */
-    const { unologin } = context;
-
-    return {
-      props: 
-      {
-        user: await unologin.getUserDocument(),
-      },
-    };
-  },
-);
-``` 
+This will handle all unolog·in related event handlers for you.
 
 ## Setting up the client library
 
-Set up the client library by importing ```clientSetup``` and running it.
+Set up the client library by importing ```clientSetup``` and running in the component file you plan on using it.
 
 ```javascript
 import {
@@ -97,13 +65,44 @@ import {
 clientSetup();
 ```
 
+## Done!
+
+Congratulations, your application now has authentication, registration, login and more.
+
+# Usage
+
+## Starting the login flow
+
+The login flow can be initiated by calling the ```login``` function returned by calling the ```useLogin``` hook.
+
+```JSX
+
+import {
+  useLogin,
+} from '@unologin/next/react';
+
+function LoginButton()
+{
+  const login = useLogin();
+
+  return <button onClick={() => login()}>
+    log in
+  </button>
+}
+
+```
+
+This will start the login flow, but won't react in any way once it has completed. 
+
+Keep on reading to see how to tell if the user is logged in.
+
 ## Checking the login state on the client
 
 The login state can be checked on the client by calling ```useClientSession``` from any component mounted inside the ```ClientSessionProvider``` component.
 
 **IMPORTANT**: 
 
-The client-side session is only meant for updating the UI once the login state changes without making a request to the server.
+The client-side session is intended for updating the UI once the login state changes without making a request to the server.
 
 It should **not be used for authentication or authorization** of any kind. 
 
@@ -145,7 +144,7 @@ function LoginButton()
 {
   /**
    * login(...) may be called with or without. 
-   * arugments and returns a Promise which 
+   * arguments and returns a Promise which 
    * resolves after successful login.
    * 
    * Use ```login.loading``` and ```login.open``` 
@@ -200,5 +199,129 @@ function LoginLogout()
     <LogoutButton /> :
     <LoginButton />;
 }
+```
+When using our ```LoginLogout``` component, make sure it is a descendant of the ```ClientSessionProvider``` element. 
+
+It is recommended to wrap the contents of your app in ```ClientSessionProvider``` once. 
+
+```JSX
+
+import {
+  ClientSessionProvider
+} from '@unologin/react'
+
+function MyApp()
+{
+  return <ClientSessionProvider>
+    <LoginLogout />
+  </ClientSessionProvider>
+}
 
 ``` 
+
+## Displaying user information
+
+To display user information, create a new component which makes use of [```getServerSideProps```](https://Next.js.org/docs/basic-features/data-fetching/get-server-side-props).
+
+
+By wrapping ```getServerSideProps``` using ```withUnologin```, any authentication errors are automatically handled and the ```context.unologin``` object is aware of the current request. 
+
+```JSX
+
+import {
+  withUnologin
+} from "@unologin/next/quick";
+
+/**
+ * Display my user info as formatted JSON.
+ */
+export default function MyInfo(props)
+{
+  return <pre>
+    {JSON.stringify(props.user, null, 2)}
+  </pre>;
+}
+
+export const getServerSideProps = withUnologin(
+  async (context) => 
+  {
+    /**
+     * The context object can be used
+     * like the context object passed 
+     * to getServerSideProps.
+     * 
+     * The ```unologin``` object can be used 
+     * like an instance of ```UnologinNextJS```
+     * but does not require ```req``` or ```res``` 
+     * to be passed to any functions.
+     */
+    const { unologin } = context;
+
+    return {
+      props: 
+      {
+        /** No further parameters required. */
+        user: await unologin.getUserDocument(),
+      },
+    };
+  },
+);
+```
+
+## Advanced server-side usage
+
+This package extends [@unologin/node-sdk](https://www.npmjs.com/package/@unologin/node-sdk), specifically the class ```UnologinNextJs``` extends the [HttpHandlers](https://unologin.github.io/node-sdk/classes/http_handlers.HttpHandlers.html). 
+
+The ```@unologin/next/quick``` module will perform the required setup for you. 
+
+```javascript
+/**
+ * With no setup required:
+ */
+
+import { 
+  unologinNextJs 
+} from '@unologin/next/quick' 
+
+/** 
+ * With manual setup:
+ */
+import UnologinNextJs 
+  from '@unologin/next/server';
+
+import unologin
+  from '@unologin/node-sdk';
+
+/**
+ * You can provide your own instance of the unologin node-sdk.
+ */
+const unologinNextJs = new UnologinNextJs(unologin)
+
+```
+
+As a consequence, all [@unologin/node-sdk](https://www.npmjs.com/package/@unologin/node-sdk)-functions are available through the ```unologinNextJs``` object. 
+
+Here's an example of how to use it within an API route:
+
+```javascript
+
+const token = unologinNextJs.getUserTokenOptional(req, res);
+
+/** if the user is logged in */
+if (token)
+{
+  /** Perform protected actions here. */
+}
+
+/**
+ * or
+ */
+
+/** Will throw APIError if not logged in. */
+const token = unologinNextJs.getUserToken(req, res);
+
+/** Perform protected actions here. */
+
+```
+
+See the [node-sdk documentation](https://unologin.github.io/node-sdk) for more information.
