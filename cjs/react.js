@@ -150,7 +150,10 @@ const useLogout = (logoutUrl = '/api/unologin/logout') => {
     const sessionContext = (0, react_1.useContext)(ClientSessionContext);
     return (0, exports.withLoadingState)(async () => {
         try {
-            await fetch(logoutUrl, { method: 'POST' });
+            await fetch(logoutUrl, {
+                method: 'POST',
+                credentials: 'include',
+            });
         }
         finally {
             sessionContext === null || sessionContext === void 0 ? void 0 : sessionContext.refresh();

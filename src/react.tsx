@@ -219,7 +219,10 @@ export const useLogout = (
       {
         await fetch(
           logoutUrl,
-          { method: 'POST' },
+          {
+            method: 'POST',
+            credentials: 'include',
+          },
         );
       }
       finally 

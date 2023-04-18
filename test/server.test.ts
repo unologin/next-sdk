@@ -26,6 +26,8 @@ const unologin = {
       ...defaultOptions,
       apiKey: 'my-api-key',
       appId: 'my-app-id',
+      loginCookieName: '_uno_appLoginToken',
+      loginStateCookieName: '_uno_loginState',
     };
   },
 } as any as IUnologinClient;

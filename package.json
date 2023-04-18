@@ -1,6 +1,6 @@
 {
   "name": "@unologin/next",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Next.js library for interfacing with unolog·in.",
   "sideEffects": true,
   "files": [
